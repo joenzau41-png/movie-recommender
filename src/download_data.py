@@ -18,3 +18,6 @@ def main():
     with zipfile.ZipFile(zip_path) as z:
         z.extractall(DATA_DIR)
     print("Done. Files are in", extracted)
+
+if __name__ == "__main__":
+     main()
