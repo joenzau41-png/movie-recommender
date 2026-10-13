@@ -24,7 +24,7 @@ A movie recommendation system built on the MovieLens dataset, following the CRIS
 - [x] Business understanding
 - [x] Data understanding (EDA)
 - [x] Data preparation (per-user chronological split)
-- [ ] Baselines and evaluation framework
+- [x] Baselines and evaluation framework
 - [ ] Collaborative filtering and matrix factorization models
 - [ ] Final evaluation and model comparison
 - [ ] FastAPI deployment and Docker
