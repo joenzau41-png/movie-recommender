@@ -13,6 +13,26 @@ A movie recommendation system built on the MovieLens dataset, following the CRIS
 
 [MovieLens `ml-latest-small`](https://grouplens.org/datasets/movielens/latest/) (GroupLens): 100,836 ratings from 610 users on 9,724 movies. Download it with `python src/download_data.py`.
 
+## Results
+
+Final evaluation on the held-out test set (each user's most recent 15% of ratings), k = 10, 574 users. Models were tuned on the validation set, then refit on train + validation before testing. A movie counts as relevant if rated 4.0 or higher.
+
+| Model | Precision@10 | Recall@10 | NDCG@10 | Coverage |
+|---|---|---|---|---|
+| Random | 0.0044 | 0.0023 | 0.0050 | 79.6% |
+| Most popular | 0.0402 | 0.0472 | 0.0592 | 2.8% |
+| Item-kNN (cosine) | 0.0524 | 0.0716 | 0.0730 | 11.8% |
+| **SVD (15 components)** | **0.0692** | **0.0913** | **0.0934** | 13.1% |
+
+SVD improves on the most-popular baseline by about 72% in precision@10 and 58% in NDCG@10, and on item-kNN by about 32% and 28%. It leads for both light and heavy users (split at the median number of ratings). A hybrid with genre-based content features did not improve on pure SVD.
+
+## Limitations
+
+- TruncatedSVD treats unrated movies as zeros rather than missing; a method fitted only on observed ratings (for example ALS) may do better.
+- Movies with fewer than 5 ratings are excluded, so brand-new titles cannot be recommended.
+- The per-user time split means one user's test period can overlap another's training period.
+- Evaluation is offline only; real impact would need an A/B test.
+
 ## Project structure
 
 - `notebooks/`: EDA, data preparation, baselines and models
@@ -26,7 +46,7 @@ A movie recommendation system built on the MovieLens dataset, following the CRIS
 - [x] Data preparation (per-user chronological split)
 - [x] Baselines and evaluation framework
 - [x] Collaborative filtering and matrix factorization models
-- [ ] Final evaluation and model comparison
+- [x] Final evaluation and model comparison
 - [ ] FastAPI deployment and Docker
 
 ## How to run
